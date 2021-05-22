@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"/>
+    <style>
+        .jumbotron {
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class = "container-fluid"> <!-- This container holds the jumbotron header -->
+          <header class="jumbotron">
+            <div class = "row">
+                <div class = "col-12">
+                  <h1 class="title display-3">Hot Restaurant<i class="ml-3 text-danger fas fa-utensils"></i></h1>
+                  <br>
+                  <p class="lead">Current Reservations & Waiting List</p>
+                  <a href="/"></i>Home</a>
+                  <a href="/reservations" class="btn btn-outline-danger btn-lg">Make Reservation</a>
+                </div>
+            </div>
+          </header>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+              Current Reservations
+            </div>
+            <!--<div class="card-body"id="currentRes">
+               <div class="card bg-light mb-3">
+                    <div class="card-body" >
+                      <h5 class="card-title"id="tableName">Table #
+                      </h5>
+                        p class="card-text" id="id">ID: </p>
+                      <p class="card-text" id="name">Name: </p>
+                      <p class="card-text" id="email">Email: </p>
+                      <p class="card-text" id="phone">Phone: </p>-->
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+              Waiting List
+            </div>
+            <!-- <div class="card-body" id="waitList">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Table #</h5>
+                      <p class="card-text">ID: </p>
+                      <p class="card-text">Name: </p>
+                      <p class="card-text">Email: </p>
+                      <p class="card-text" >Phone: </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="container">
+        <h6>Control Panel</h6>
+        <a href="#" class="text-danger">Clear Table</a>
+        <a href="#" class="text-danger">API Table Link</a>
+        <a href="#" class="text-danger ml-5">API Wait List</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+      let tableName = document.getElementById("tableName");
+      let id = document.getElementById("id");
+      let name = document.getElementById("name");
+      let email = document.getElementById("email");
+      let phone = document.getElementById("phone");
+
+      
+
+          fetch(`/api`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })     
+         .then((response) => response.json())
+         
+         .then((data) => {
+           console.log(data);
+           let tableSection = $('#currentRes');
+           let waitList = $('#waitList');
+          // let waitlistSection = $('#waitlist');
+            for (let i = 0; i < data.length; i++) {
+              if (i < 5) {
+                
+                let table = $('<div>');
+                let id = data[i].id;
+                let name = data[i].name;
+                let email = data[i].email;
+                let h1 = $('<p>').text(id)
+                let h2 = $('<p>').text(name)
+                let h3 = $('<p>').text(email)
+                let br = $('<br>')
+                tableSection.append(h1);
+                tableSection.append(h2);
+                tableSection.append(h3);
+                tableSection.append(br)
+              } else {
+                let table = $('<div>');
+                let id = data[i].id;
+                let name = data[i].name;
+                let email = data[i].email;
+                let h1 = $('<p>').text(id)
+                let h2 = $('<p>').text(name)
+                let h3 = $('<p>').text(email)
+                let br = $('<br>')
+                waitList.append(h1);
+                waitList.append(h2);
+                waitList.append(h3);
+                waitList.append(br)
+              }
+            }
+          })
+          //  let reservations = $('#currentRes')
+          //  for  (i = 0; i< data.length; i++){
+          //   var insertData = `<div class="card-body">
+          //       <div class="card bg-light mb-3">
+          //           <div class="card-body" id="currentRes">
+          //             <h5 class="card-title"id="tableName">${i}</h5>
+          //             <p class="card-text" id="id">${data[i].id} </p>
+          //             <p class="card-text" id="name">${data[i].name}  </p>
+          //             <p class="card-text" id="email">${data[i].email}</p>
+          //             <p class="card-text" id="phone"${data[i].phone}</p>
+          //           </div>
+          //       </div>
+          //   </div>`;
+          //   document.getElementById('currentRes').html().append(insertData)
+          //  }
+        //    for (i = 0; i< data.length; i++){
+        //      document.getElementById('currentRes').append(`
+        //      <div class="card-body">
+        //         <div class="card bg-light mb-3">
+        //             <div class="card-body" id="currentRes">
+        //               <h5 class="card-title"id="tableName">${data[i]}</h5>
+        //               <p class="card-text" id="id">${data[i].id} </p>
+        //               <p class="card-text" id="name">${data[i].name}  </p>
+        //               <p class="card-text" id="email">${data[i].email}</p>
+        //               <p class="card-text" id="phone"${data[i].phone}</p>
+        //             </div>
+        //         </div>
+        //     </div>
+        // `)
+          //  }
+        //  })//do something with data here)
+
+        
+
+
+    </script>
+</body>
